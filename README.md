@@ -1,35 +1,22 @@
-# nes_controller
+# Photon NES Controller Decoder
 
-A Particle project named nes_controller
+Interfaces with an NES controller to read the register data for button presses and test functionality. A pinout diagram for the controller is found here: http://wiki.nesdev.com/w/index.php/Controller_port_pinout.
 
-## Welcome to your project!
+These three pins cover the bi-directional communication with the controller:
 
-Every new Particle project is composed of 3 important elements that you'll see have been created in your project directory for nes_controller.
+- D0 - Clock (CLK or Pulse)
+- D1 - Latch (OUT)
+- D2 - Data (D0)
 
-#### ```/src``` folder:  
-This is the source folder that contains the firmware files for your project. It should *not* be renamed. 
-Anything that is in this folder when you compile your project will be sent to our compile service and compiled into a firmware binary for the Particle device that you have targeted.
+These pins are used to activate certain flags in the code:
 
-If your application contains multiple files, they should all be included in the `src` folder. If your firmware depends on Particle libraries, those dependencies are specified in the `project.properties` file referenced below.
+- A5 - DEBUG
+- A0 - Manual test restart
 
-#### ```.ino``` file:
-This file is the firmware that will run as the primary application on your Particle device. It contains a `setup()` and `loop()` function, and can be written in Wiring or C/C++. For more information about using the Particle firmware API to create firmware for your Particle device, refer to the [Firmware Reference](https://docs.particle.io/reference/firmware/) section of the Particle documentation.
+*!!WARNING!! - The Photon cannot handle the 5V signal on the data line coming from the controller. A circuit such as this one below is necessary to avoid potential damage to your Photon.*
 
-#### ```project.properties``` file:  
-This is the file that specifies the name and version number of the libraries that your project depends on. Dependencies are added automatically to your `project.properties` file when you add a library to a project using the `particle library add` command in the CLI or add a library in the Desktop IDE.
+![image](https://user-images.githubusercontent.com/8311639/116807664-9e068600-aaf1-11eb-971e-6cef20309c4a.png)
 
-## Adding additional files to your project
+Source: https://randomnerdtutorials.com/how-to-level-shift-5v-to-3-3v/
 
-#### Projects with multiple sources
-If you would like add additional files to your application, they should be added to the `/src` folder. All files in the `/src` folder will be sent to the Particle Cloud to produce a compiled binary.
-
-#### Projects with external libraries
-If your project includes a library that has not been registered in the Particle libraries system, you should create a new folder named `/lib/<libraryname>/src` under `/<project dir>` and add the `.h`, `.cpp` & `library.properties` files for your library there. Read the [Firmware Libraries guide](https://docs.particle.io/guide/tools-and-features/libraries/) for more details on how to develop libraries. Note that all contents of the `/lib` folder and subfolders will also be sent to the Cloud for compilation.
-
-## Compiling your project
-
-When you're ready to compile your project, make sure you have the correct Particle device target selected and run `particle compile <platform>` in the CLI or click the Compile button in the Desktop IDE. The following files in your project folder will be sent to the compile service:
-
-- Everything in the `/src` folder, including your `.ino` application file
-- The `project.properties` file for your project
-- Any libraries stored under `lib/<libraryname>/src`
+Further reading: https://tresi.github.io/nes/
