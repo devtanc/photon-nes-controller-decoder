@@ -102,15 +102,14 @@ int setBit(unsigned int data, int bit, unsigned int value) {
 void createBinaryString(unsigned int data, char result[]) {
   for (int i = 0; i < 8; i++) {
     if (data & 1) {
-      result[i] = '1';
+      result[7 - i] = '1';
     } else {
-      result[i] = '0';
+      result[7 - i] = '0';
     }
     data >>= 1;
   }
   result[8] = '\0';
 }
-
 
 void logData(unsigned int data) {
   char dataString[9];
