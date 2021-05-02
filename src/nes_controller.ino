@@ -68,6 +68,13 @@ void loop() {
     endTest(buttonResults == ALL_BUTTONS_PRESSED);
   }
 
+  if (!CONTROLLER_CONNECTED && !TESTING) {
+    delay(1s);
+    ledPass.setActive(false);
+    ledFail.setActive(false);
+    ledTesting.setActive(false);
+  }
+
   if (DEBUG_MODE) logData(registerData);
   delayMicroseconds(100000);
 }
