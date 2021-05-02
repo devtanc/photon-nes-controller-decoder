@@ -3,11 +3,14 @@
 const pin_t CLOCK = D0;
 const pin_t LATCH = D1;
 const pin_t DATA = D2;
-const pin_t DEBUG = A5;
-const pin_t RESTART_TEST = A0;
+
 const pin_t TESTING_LED = A1;
 const pin_t PASS_LED = A2;
 const pin_t FAIL_LED = A3;
+
+const pin_t DEBUG = A5;
+const pin_t RESTART_TEST = A0;
+
 const int CLOCK_DELAY = 10;
 const unsigned int ALL_BUTTONS_PRESSED = 0b11111111;
 
