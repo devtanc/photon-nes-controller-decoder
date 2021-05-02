@@ -8,6 +8,10 @@ const pin_t RESTART_TEST = A0;
 const int CLOCK_DELAY = 10;
 const unsigned int ALL_BUTTONS_PRESSED = 0b11111111;
 
+LEDStatus ledTesting(RGB_COLOR_BLUE, LED_PATTERN_FADE, LED_PRIORITY_NORMAL);
+LEDStatus ledPass(RGB_COLOR_GREEN, LED_PATTERN_SOLID, LED_PRIORITY_NORMAL);
+LEDStatus ledFail(RGB_COLOR_ORANGE, LED_PATTERN_SOLID, LED_PRIORITY_NORMAL);
+
 bool CONTROLLER_CONNECTED = false;
 bool CONTROLLER_CONNECTED_FIRST_TIME = false;
 bool TESTING = false;
@@ -84,15 +88,21 @@ void beginTest() {
   CONTROLLER_CONNECTED_FIRST_TIME = false;
   TESTING = true;
   buttonResults = 0b00000000;
+  ledPass.setActive(false);
+  ledFail.setActive(false);
+  ledTesting.setActive(true);
 }
 
 void endTest(bool pass) {
+  ledTesting.setActive(false);
   TESTING = false;
 
   if (pass) {
     Serial.println("***** TEST PASSED *****");
+    ledPass.setActive(true);
   } else {
     Serial.println("***** TEST FAILED *****");
+    ledFail.setActive(true);
   }
 }
 
