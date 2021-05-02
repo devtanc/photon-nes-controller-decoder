@@ -111,11 +111,11 @@ void createBinaryString(unsigned int data, char* result) {
 }
 
 
-void logData(int registerData) {
-  char registerString[8];
-  createBinaryString(~registerData, registerString);
+void logData(unsigned int data) {
+  char dataString[8];
+  createBinaryString(~data, dataString);
   Serial.printf("LOOP %d\n", loop_counter);
-  Serial.println(registerString);
+  Serial.println(dataString);
 }
 
 void resetButtonResults() {
