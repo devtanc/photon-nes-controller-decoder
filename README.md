@@ -13,6 +13,12 @@ These pins are used to activate certain flags in the code:
 - A5 - DEBUG
 - A0 - Manual test restart
 
+The status LED on the Photon is used to show the status of the test when Serial is not connected.
+
+- Blue Fade: Test in progress
+- Green: Pass
+- Red: Fail
+
 The VCC and Ground pins on the controller should be connected to a 5V power source and ground respectively. The other two pins on the controller are unused on the NES, and do not need to be connected.
 
 *!!WARNING!! - The Photon cannot handle the 5V signal on the data line coming from the controller. A circuit such as this one below is necessary to avoid potential damage to your Photon. The data line would connect where the 5V is, and the D2 pin on the Photon should connect to the 3.3V line in the diagram.*
