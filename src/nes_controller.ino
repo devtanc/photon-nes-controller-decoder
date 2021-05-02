@@ -5,6 +5,9 @@ const pin_t LATCH = D1;
 const pin_t DATA = D2;
 const pin_t DEBUG = A5;
 const pin_t RESTART_TEST = A0;
+const pin_t TESTING_LED = A1;
+const pin_t PASS_LED = A2;
+const pin_t FAIL_LED = A3;
 const int CLOCK_DELAY = 10;
 const unsigned int ALL_BUTTONS_PRESSED = 0b11111111;
 
@@ -41,8 +44,14 @@ void setup() {
   pinMode(CLOCK, OUTPUT);
   pinMode(LATCH, OUTPUT);
   pinMode(DATA, INPUT);
+
+  pinMode(TESTING_LED, OUTPUT);
+  pinMode(PASS_LED, OUTPUT);
+  pinMode(FAIL_LED, OUTPUT);
+
   pinMode(DEBUG, INPUT_PULLDOWN);
   pinMode(RESTART_TEST, INPUT_PULLDOWN);
+
   digitalWrite(CLOCK, HIGH);
 }
 
@@ -69,14 +78,58 @@ void loop() {
   }
 
   if (!CONTROLLER_CONNECTED && !TESTING) {
-    delay(1s);
-    ledPass.setActive(false);
-    ledFail.setActive(false);
-    ledTesting.setActive(false);
+    delay(2s);
+    clearLeds();
   }
 
   if (DEBUG_MODE) logData(registerData);
   delayMicroseconds(100000);
+}
+
+void clearLeds() {
+  setLed(PASS_LED, false);
+  setLed(FAIL_LED, false);
+  setLed(TESTING_LED, false);
+}
+
+void resetTestingLed() {
+  setLed(PASS_LED, false);
+  setLed(FAIL_LED, false);
+  setLed(TESTING_LED, true);
+}
+
+void setLed(pin_t LED, bool on) {
+  if (on) {
+    digitalWrite(LED, HIGH);
+    switch (LED) {
+      case TESTING_LED:
+        ledTesting.setActive(true);
+        break;
+      case PASS_LED:
+        ledPass.setActive(true);
+        break;
+      case FAIL_LED:
+        ledFail.setActive(true);
+        break;
+      default:
+        break;
+    }
+  } else {
+    digitalWrite(LED, LOW);
+    switch (LED) {
+      case TESTING_LED:
+        ledTesting.setActive(false);
+        break;
+      case PASS_LED:
+        ledPass.setActive(false);
+        break;
+      case FAIL_LED:
+        ledFail.setActive(false);
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 void checkResetPin() {
@@ -95,21 +148,19 @@ void beginTest() {
   CONTROLLER_CONNECTED_FIRST_TIME = false;
   TESTING = true;
   buttonResults = 0b00000000;
-  ledPass.setActive(false);
-  ledFail.setActive(false);
-  ledTesting.setActive(true);
+  resetTestingLed();
 }
 
 void endTest(bool pass) {
-  ledTesting.setActive(false);
+  setLed(TESTING_LED, false);
   TESTING = false;
 
   if (pass) {
     Serial.println("***** TEST PASSED *****");
-    ledPass.setActive(true);
+    setLed(PASS_LED, true);
   } else {
     Serial.println("***** TEST FAILED *****");
-    ledFail.setActive(true);
+    setLed(FAIL_LED, true);
   }
 }
 
