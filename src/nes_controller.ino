@@ -4,6 +4,7 @@ const pin_t CLOCK = D0;
 const pin_t LATCH = D1;
 const pin_t DATA = D2;
 const pin_t DEBUG = A5;
+const pin_t RESTART_TEST = A0;
 const int CLOCK_DELAY = 10;
 const unsigned int ALL_BUTTONS_PRESSED = 0b11111111;
 
@@ -37,6 +38,7 @@ void setup() {
   pinMode(LATCH, OUTPUT);
   pinMode(DATA, INPUT);
   pinMode(DEBUG, INPUT_PULLDOWN);
+  pinMode(RESTART_TEST, INPUT_PULLDOWN);
   digitalWrite(CLOCK, HIGH);
 }
 
@@ -45,6 +47,7 @@ void loop() {
   sendLatchPulse();
   unsigned int registerData = readRegister();
   checkIfControllerConnected(registerData);
+  if (CONTROLLER_CONNECTED) checkResetPin();
 
   if (CONTROLLER_CONNECTED_FIRST_TIME && !TESTING) {
     beginTest();
@@ -63,6 +66,10 @@ void loop() {
 
   if (DEBUG_MODE) logData(registerData);
   delayMicroseconds(100000);
+}
+
+void checkResetPin() {
+  if (digitalRead(RESTART_TEST)) beginTest();
 }
 
 void checkDebug() {
