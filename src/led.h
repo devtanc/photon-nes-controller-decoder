@@ -11,7 +11,7 @@ namespace led {
     void setup();
 }
 
-void resetLeds(std::chrono::milliseconds delayTime);
+void resetLeds();
 void resetTestingLed();
 void setLed(pin_t LED, bool on);
 

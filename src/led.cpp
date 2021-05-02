@@ -14,8 +14,7 @@ namespace led {
   }
 }
 
-void resetLeds(std::chrono::milliseconds delayTime) {
-  delay(delayTime);
+void resetLeds() {
   setLed(PASS_LED, false);
   setLed(FAIL_LED, false);
   setLed(TESTING_LED, false);

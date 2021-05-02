@@ -4,7 +4,7 @@
 
 const pin_t DEBUG = A5;
 const pin_t RESTART_TEST = A0;
-
+const int DISCONNECT_DELAY_MS = 2000;
 const unsigned int ALL_BUTTONS_PRESSED = 0b11111111;
 
 bool CONTROLLER_CONNECTED = false;
@@ -12,6 +12,8 @@ bool CONTROLLER_FIRST_CONNECTED = false;
 bool CONTROLLER_FIRST_DISCONNECTED = false;
 bool TESTING = false;
 bool DEBUG_MODE = false;
+
+unsigned long controller_disconnect_time;
 
 // Needs to persist between loops
 unsigned int buttonResults = 0b00000000;
@@ -48,8 +50,8 @@ void loop() {
     endTest(buttonResults == ALL_BUTTONS_PRESSED);
   }
 
-  if (CONTROLLER_FIRST_DISCONNECTED && !TESTING) {
-    resetLeds(2s);
+  if (CONTROLLER_FIRST_DISCONNECTED && millis() > controller_disconnect_time + DISCONNECT_DELAY_MS) {
+    resetLeds();
     CONTROLLER_FIRST_DISCONNECTED = false;
   }
 
@@ -70,6 +72,7 @@ void checkResetPin() {
 }
 
 void beginTest() {
+  CONTROLLER_FIRST_DISCONNECTED = false;
   CONTROLLER_FIRST_CONNECTED = false;
   TESTING = true;
   buttonResults = 0b00000000;
@@ -99,5 +102,6 @@ void checkIfControllerConnected(unsigned int data) {
     if (DEBUG_MODE) Serial.println("CONTROLLER DISCONNECTED");
     CONTROLLER_CONNECTED = false;
     CONTROLLER_FIRST_DISCONNECTED = true;
+    controller_disconnect_time = millis();
   }
 }
