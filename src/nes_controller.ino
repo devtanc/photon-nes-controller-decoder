@@ -99,7 +99,7 @@ int setBit(unsigned int data, int bit, unsigned int value) {
   }
 }
 
-void createBinaryString(unsigned int data, char* result) {
+void createBinaryString(unsigned int data, char result[]) {
   for (int i = 0; i < 8; i++) {
     if (data & 1) {
       result[i] = '1';
@@ -108,12 +108,13 @@ void createBinaryString(unsigned int data, char* result) {
     }
     data >>= 1;
   }
+  result[8] = '\0';
 }
 
 
 void logData(unsigned int data) {
-  char dataString[8];
-  createBinaryString(~data, dataString);
+  char dataString[9];
+  createBinaryString(data, dataString);
   Serial.printf("LOOP %d\n", loop_counter);
   Serial.println(dataString);
 }
