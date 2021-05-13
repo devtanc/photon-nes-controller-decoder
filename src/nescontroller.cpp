@@ -3,9 +3,9 @@
 
 const int CLOCK_DELAY = 10;
 
-const pin_t CLOCK = D0;
-const pin_t LATCH = D1;
-const pin_t DATA = D2;
+const pin_t CLOCK = A3;
+const pin_t LATCH = A4;
+const pin_t DATA = A5;
 
 typedef enum {
   A,

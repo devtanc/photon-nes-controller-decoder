@@ -1,18 +1,18 @@
 #ifndef LED_H
 #define LED_H
-#include <chrono>
-#include <Particle.h>
-
-const pin_t TESTING_LED = A1;
-const pin_t PASS_LED = A2;
-const pin_t FAIL_LED = A3;
 
 namespace led {
-    void setup();
-}
+    const int NOTHING = 0b00000000;
+    const int SUCCESS = 0b00000001;
+    const int TESTING = 0b00000010;
+    const int FAILURE = 0b00000100;
 
-void resetLeds();
-void resetTestingLed();
-void setLed(pin_t LED, bool on);
+    void setup();
+    void off();
+    void testing();
+    void success();
+    void failure();
+    unsigned int getTestingLeds();
+}
 
 #endif /* LED_H */
