@@ -4,9 +4,11 @@ Interfaces with an NES controller to read the register data for button presses a
 
 These three pins cover the bi-directional communication with the controller:
 
-- D0 - Clock (CLK or Pulse)
-- D1 - Latch (OUT)
-- D2 - Data (D0)
+```js
+const pin_t CLOCK = A3; // Clock (CLK or Pulse)
+const pin_t LATCH = A4; // Latch (OUT)
+const pin_t DATA = A5; // Data (D0)
+```
 
 These pins are used to activate certain flags in the code:
 
