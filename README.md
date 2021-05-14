@@ -4,7 +4,7 @@ Interfaces with an NES controller to read the register data for button presses a
 
 These three pins cover the bi-directional communication with the controller:
 
-```js
+```cpp
 const pin_t CLOCK = A3; // Clock (CLK or Pulse)
 const pin_t LATCH = A4; // Latch (OUT)
 const pin_t DATA = A5; // Data (D0)
@@ -12,8 +12,9 @@ const pin_t DATA = A5; // Data (D0)
 
 These pins are used to activate certain flags in the code:
 
-- A5 - DEBUG
-- A0 - Manual test restart
+```cpp
+const pin_t RESTART_TEST = A0;
+```
 
 The status LED on the Photon is used to show the status of the test when Serial is not connected.
 
